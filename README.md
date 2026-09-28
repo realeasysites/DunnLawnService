@@ -44,7 +44,7 @@ All photo slots are filled with real (or client-generated) images — logo, hero
 
 ## Color palette
 
-Red / black / white / grass-green (set as CSS custom properties at the top of `public/css/style.css`: `--red`, `--black`, `--green`, plus `--white`). Change the hex values there to retheme the whole site.
+Red / black / white (set as CSS custom properties at the top of `public/css/style.css`: `--red`, `--black`, plus `--white`). Change the hex values there to retheme the whole site.
 
 ## Careers / hiring page
 
