@@ -51,4 +51,24 @@ router.post('/api/leads/:id/delete', requireAuth, (req, res) => {
   res.json({ ok: true });
 });
 
+router.get('/api/applications', requireAuth, (req, res) => {
+  const applications = db.prepare('SELECT * FROM job_applications ORDER BY id DESC').all();
+  res.json({ ok: true, applications });
+});
+
+router.post('/api/applications/:id/status', requireAuth, (req, res) => {
+  const { status } = req.body;
+  const allowed = ['new', 'contacted', 'interviewing', 'hired', 'passed'];
+  if (!allowed.includes(status)) {
+    return res.status(400).json({ ok: false, error: 'Invalid status' });
+  }
+  db.prepare('UPDATE job_applications SET status = ? WHERE id = ?').run(status, req.params.id);
+  res.json({ ok: true });
+});
+
+router.post('/api/applications/:id/delete', requireAuth, (req, res) => {
+  db.prepare('DELETE FROM job_applications WHERE id = ?').run(req.params.id);
+  res.json({ ok: true });
+});
+
 module.exports = router;

@@ -16,21 +16,22 @@ if (navToggle && mobileNav) {
   });
 }
 
-// Quote form submission
-const form = document.getElementById('quoteForm');
-const status = document.getElementById('formStatus');
+// Generic form-submission wiring, reused by the quote form and the careers/application form
+function wireUpForm({ formId, statusId, endpoint, sendingText, defaultText, successText }) {
+  const form = document.getElementById(formId);
+  const status = document.getElementById(statusId);
+  if (!form) return;
 
-if (form) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending...';
+    submitBtn.textContent = sendingText;
 
     const data = Object.fromEntries(new FormData(form).entries());
 
     try {
-      const res = await fetch('/api/quote', {
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -38,7 +39,7 @@ if (form) {
       const result = await res.json();
 
       if (result.ok) {
-        status.textContent = "Thanks! We got your request and will be in touch soon.";
+        status.textContent = successText;
         status.className = 'form-status show ok';
         form.reset();
       } else {
@@ -50,7 +51,25 @@ if (form) {
       status.className = 'form-status show err';
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Send My Free Quote Request';
+      submitBtn.textContent = defaultText;
     }
   });
 }
+
+wireUpForm({
+  formId: 'quoteForm',
+  statusId: 'formStatus',
+  endpoint: '/api/quote',
+  sendingText: 'Sending...',
+  defaultText: 'Send My Free Quote Request',
+  successText: 'Thanks! We got your request and will be in touch soon.'
+});
+
+wireUpForm({
+  formId: 'careersForm',
+  statusId: 'careersFormStatus',
+  endpoint: '/api/careers',
+  sendingText: 'Submitting...',
+  defaultText: 'Submit My Application',
+  successText: "Thanks for applying! Ethan will be in touch soon."
+});

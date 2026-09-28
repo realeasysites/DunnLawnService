@@ -5,6 +5,7 @@ const express = require('express');
 const session = require('express-session');
 
 const quoteRoutes = require('./routes/quote');
+const careersRoutes = require('./routes/careers');
 const adminRoutes = require('./routes/admin');
 
 const app = express();
@@ -24,6 +25,7 @@ app.use(
 );
 
 app.use('/api/quote', quoteRoutes);
+app.use('/api/careers', careersRoutes);
 app.use('/admin', adminRoutes);
 
 app.listen(PORT, () => {
