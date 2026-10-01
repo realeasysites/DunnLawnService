@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Login - Dunn Lawn Service</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root { --black:#161616; --red:#C60C30; --ink:#1a1d21; }
+  * { box-sizing: border-box; }
+  body {
+    margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+    font-family: 'Inter', Arial, sans-serif;
+    background: linear-gradient(160deg, var(--black) 0%, #000000 60%, var(--ink) 100%);
+  }
+  .card {
+    background:#fff; border-radius:12px; padding:40px 36px; width:100%; max-width:360px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    border-top: 6px solid var(--red);
+  }
+  .card h1 { margin:0 0 4px; font-size:1.4rem; color:var(--ink); }
+  .card p { margin:0 0 24px; color:#666; font-size:0.9rem; }
+  label { display:block; font-size:0.85rem; font-weight:600; color:var(--ink); margin-bottom:6px; }
+  input {
+    width:100%; padding:10px 12px; margin-bottom:16px; border:1px solid #ccc; border-radius:8px;
+    font-size:1rem;
+  }
+  button {
+    width:100%; padding:12px; border:none; border-radius:8px; background:var(--red); color:#fff;
+    font-weight:700; font-size:1rem; cursor:pointer;
+  }
+  button:hover { background:#a30926; }
+  .error { color:var(--red); font-size:0.85rem; margin-bottom:12px; display:none; }
+  .error.show { display:block; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Dunn Lawn Service</h1>
+    <p>Admin dashboard login</p>
+    <div class="error" id="error">Incorrect username or password.</div>
+    <form method="POST" action="/admin/login">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" autocomplete="username" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" autocomplete="current-password" required>
+      <button type="submit">Log In</button>
+    </form>
+  </div>
+  <script>
+    if (new URLSearchParams(location.search).get('error')) {
+      document.getElementById('error').classList.add('show');
+    }
+  </script>
+</body>
+</html>

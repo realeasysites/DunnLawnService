@@ -1,0 +1,20 @@
+{
+  "name": "dunn-lawn-service",
+  "version": "1.0.0",
+  "description": "Dunn Lawn Service - Spencerport / Rochester NY lawn care, landscaping & snow removal",
+  "main": "server.js",
+  "engines": {
+    "node": "20.x"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "nodemailer": "^6.9.14",
+    "dotenv": "^16.4.5"
+  }
+}
