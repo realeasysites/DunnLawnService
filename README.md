@@ -34,8 +34,9 @@ Visit `http://localhost:3000` for the site and `http://localhost:3000/admin` for
    - `SESSION_SECRET` — any long random string
    - `ADMIN_USERNAME` / `ADMIN_PASSWORD` — the admin dashboard login (set your own — don't ship the example defaults)
    - `DB_PATH` — `/var/data/dunn.sqlite` (see persistent disk note below)
-   - `NOTIFY_EMAIL` — where new leads get emailed (currently `DunnLawnServiceLLC@yahoo.com`)
-   - `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS` — the email account that sends notifications. **Yahoo requires an "app password"**, not the regular account password — generate one in Yahoo Account Security settings.
+   - `NOTIFY_EMAIL` — where new leads get emailed (currently `DunnLawnServiceLLC@yahoo.com` — the business's own inbox)
+   - `SITE_URL` — `https://dunnlawnservice.onrender.com` — adds a "View in dashboard" link to each notification email
+   - `SMTP_HOST=smtp.gmail.com`, `SMTP_PORT=465`, `SMTP_SECURE=true`, `SMTP_USER=realeasy365@gmail.com`, `SMTP_PASS` — notifications are sent from the Real Easy Sites Gmail account (same pattern as the other client sites), not from Dunn's own Yahoo address. **Requires a Gmail "app password"** (Google Account → Security → App passwords, needs 2-Step Verification on) — not the regular Gmail login password. Replies to the notification email go straight to the customer, not back to this inbox.
 4. Node is pinned to 20.x (`.node-version` + `package.json engines`) because `better-sqlite3` needs a prebuilt binary — don't bump Node without checking that first.
 5. **Persistent lead storage**: a 1 GB Render Disk is mounted at `/var/data` on this service. With `DB_PATH=/var/data/dunn.sqlite` set, the SQLite file lives on that disk and survives redeploys — leads and job applications are no longer wiped when the service rebuilds. (A disk attached to a service means deploys briefly take the service offline instead of zero-downtime swapping — expected trade-off for persistent storage on a single instance.) Without `DB_PATH` set, it falls back to `db/dunn.sqlite` inside the repo, which **is** ephemeral — fine for local dev, not for production.
 
