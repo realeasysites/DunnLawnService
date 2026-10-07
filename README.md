@@ -32,11 +32,12 @@ Visit `http://localhost:3000` for the site and `http://localhost:3000/admin` for
    - Start command: `npm start`
 3. Set these Environment Variables in Render (matching `.env.example`):
    - `SESSION_SECRET` — any long random string
-   - `ADMIN_USERNAME` / `ADMIN_PASSWORD` — the admin dashboard login
+   - `ADMIN_USERNAME` / `ADMIN_PASSWORD` — the admin dashboard login (set your own — don't ship the example defaults)
+   - `DB_PATH` — `/var/data/dunn.sqlite` (see persistent disk note below)
    - `NOTIFY_EMAIL` — where new leads get emailed (currently `DunnLawnServiceLLC@yahoo.com`)
    - `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS` — the email account that sends notifications. **Yahoo requires an "app password"**, not the regular account password — generate one in Yahoo Account Security settings.
 4. Node is pinned to 20.x (`.node-version` + `package.json engines`) because `better-sqlite3` needs a prebuilt binary — don't bump Node without checking that first.
-5. The SQLite database file lives at `db/dunn.sqlite` and is created automatically on first run. On Render's free tier the disk is ephemeral (wiped on redeploy) — if you want leads to persist long-term, add a Render Disk mounted at `/db` or upgrade to a paid instance with a persistent disk later. Fine to start with for testing.
+5. **Persistent lead storage**: a 1 GB Render Disk is mounted at `/var/data` on this service. With `DB_PATH=/var/data/dunn.sqlite` set, the SQLite file lives on that disk and survives redeploys — leads and job applications are no longer wiped when the service rebuilds. (A disk attached to a service means deploys briefly take the service offline instead of zero-downtime swapping — expected trade-off for persistent storage on a single instance.) Without `DB_PATH` set, it falls back to `db/dunn.sqlite` inside the repo, which **is** ephemeral — fine for local dev, not for production.
 
 ## Images
 
@@ -49,11 +50,3 @@ Red / black / white (set as CSS custom properties at the top of `public/css/styl
 ## Careers / hiring page
 
 `public/careers.html` is a "Join Our Team" page (linked from the header/footer nav on every page) with a job-application form for people who want to work for Dunn Lawn Service. Submissions POST to `/api/careers` (see `routes/careers.js`), are stored in the `job_applications` table (`db/init.js`), and trigger the same email-notification pattern as quote leads (`lib/mailer.js`). They show up in the admin dashboard under the "Job Applications" tab alongside the existing "Quote Leads" tab (`/admin`).
-
-## Security & data settings (Render → Environment)
-- `ADMIN_PASSWORD` — **required**, 8+ characters. There is no default password; until this
-  is set, the admin dashboard refuses every login. (`ADMIN_USERNAME` defaults to `admin`.)
-- `SESSION_SECRET` — long random string. If unset, a random one is used per boot (admin is
-  logged out after each restart).
-- `DB_PATH` — add a Render persistent disk mounted at `/var/data`, then set
-  `DB_PATH=/var/data/dunn.sqlite` so leads and job applications survive redeploys.

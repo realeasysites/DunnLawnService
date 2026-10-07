@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const router = express.Router();
 const db = require('../db/init');
-const { requireAuth, checkCredentials } = require('../lib/auth');
+const { requireAuth } = require('../lib/auth');
 
 const VIEWS_DIR = path.join(__dirname, '..', 'views');
 
@@ -17,7 +17,9 @@ router.get('/login', (req, res) => {
 
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
-  if (checkCredentials(username, password)) {
+  const okUser = username === (process.env.ADMIN_USERNAME || 'admin');
+  const okPass = password === (process.env.ADMIN_PASSWORD || 'admin');
+  if (okUser && okPass) {
     req.session.loggedIn = true;
     return res.redirect('/admin');
   }
