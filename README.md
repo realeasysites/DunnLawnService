@@ -49,3 +49,11 @@ Red / black / white (set as CSS custom properties at the top of `public/css/styl
 ## Careers / hiring page
 
 `public/careers.html` is a "Join Our Team" page (linked from the header/footer nav on every page) with a job-application form for people who want to work for Dunn Lawn Service. Submissions POST to `/api/careers` (see `routes/careers.js`), are stored in the `job_applications` table (`db/init.js`), and trigger the same email-notification pattern as quote leads (`lib/mailer.js`). They show up in the admin dashboard under the "Job Applications" tab alongside the existing "Quote Leads" tab (`/admin`).
+
+## Security & data settings (Render → Environment)
+- `ADMIN_PASSWORD` — **required**, 8+ characters. There is no default password; until this
+  is set, the admin dashboard refuses every login. (`ADMIN_USERNAME` defaults to `admin`.)
+- `SESSION_SECRET` — long random string. If unset, a random one is used per boot (admin is
+  logged out after each restart).
+- `DB_PATH` — add a Render persistent disk mounted at `/var/data`, then set
+  `DB_PATH=/var/data/dunn.sqlite` so leads and job applications survive redeploys.

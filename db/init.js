@@ -1,8 +1,14 @@
 const path = require('path');
+const fs = require('fs');
 const Database = require('better-sqlite3');
 
-const dbPath = path.join(__dirname, 'dunn.sqlite');
+// On Render, set DB_PATH to a file on a persistent disk (e.g. /var/data/dunn.sqlite)
+// so leads and job applications survive redeploys. Without it, the database lives in
+// the app folder, which Render wipes on every deploy.
+const dbPath = process.env.DB_PATH || path.join(__dirname, 'dunn.sqlite');
+fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 const db = new Database(dbPath);
+console.log(`[db] Using database at ${dbPath}`);
 
 db.pragma('journal_mode = WAL');
 
