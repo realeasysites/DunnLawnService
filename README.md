@@ -22,7 +22,7 @@ cp .env.example .env   # then edit values in .env
 npm start
 ```
 
-Visit `http://localhost:3000` for the site and `http://localhost:3000/admin` for the lead dashboard (login with the `ADMIN_USERNAME` / `ADMIN_PASSWORD` you set in `.env`).
+Visit `http://localhost:3000` for the site and `http://localhost:3000/admin` for the lead dashboard (log in with the `ADMIN_PASSWORD` you set in `.env` — password only, no username).
 
 ## Deploying (Render, same pattern as past client sites)
 
@@ -32,7 +32,7 @@ Visit `http://localhost:3000` for the site and `http://localhost:3000/admin` for
    - Start command: `npm start`
 3. Set these Environment Variables in Render (matching `.env.example`):
    - `SESSION_SECRET` — any long random string
-   - `ADMIN_USERNAME` / `ADMIN_PASSWORD` — the admin dashboard login (set your own — don't ship the example defaults)
+   - `ADMIN_PASSWORD` — the admin dashboard password (no username needed) (set your own — don't ship the example defaults)
    - `DB_PATH` — `/var/data/dunn.sqlite` (see persistent disk note below)
    - `NOTIFY_EMAIL` — where new leads get emailed (currently `DunnLawnServiceLLC@yahoo.com` — the business's own inbox)
    - `SITE_URL` — `https://dunnlawnservice.onrender.com` — adds a "View in dashboard" link to each notification email
