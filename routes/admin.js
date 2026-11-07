@@ -16,10 +16,10 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  // Password-only login (no username).
-  const { password } = req.body;
+  const { username, password } = req.body;
+  const okUser = username === (process.env.ADMIN_USERNAME || 'admin');
   const okPass = password === (process.env.ADMIN_PASSWORD || 'admin');
-  if (okPass) {
+  if (okUser && okPass) {
     req.session.loggedIn = true;
     return res.redirect('/admin');
   }
