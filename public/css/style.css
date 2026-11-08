@@ -233,34 +233,53 @@ p { color: var(--grey); margin: 0 0 16px; }
 .trust-bar span { display: flex; align-items: center; gap: 8px; color: #e9ecf3; }
 .trust-bar .sep { color: var(--red); }
 
-/* ---------- Services ---------- */
-.services-grid {
+/* ---------- Services (4-season quadrant grid) ---------- */
+.season-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   gap: 22px;
   margin-top: 40px;
 }
-@media (max-width: 900px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .services-grid { grid-template-columns: 1fr; } }
-.service-card {
+@media (max-width: 700px) {
+  .season-grid { grid-template-columns: 1fr; }
+  .season-card.summer { order: 2; }
+  .season-card.fall { order: 3; }
+  .season-card.winter { order: 4; }
+}
+.season-card {
   background: var(--white);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 28px 24px;
+  padding: 30px 26px;
   position: relative;
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
-.service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-.service-card .icon {
-  width: 54px; height: 54px;
+.season-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.season-head { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+.season-card .icon {
+  width: 54px; height: 54px; flex-shrink: 0;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--red), var(--red-dark));
-  color: #fff;
+  color: #fff; font-size: 1.4rem;
   display: flex; align-items: center; justify-content: center;
-  margin-bottom: 18px;
 }
-.service-card.featured .icon { background: linear-gradient(135deg, var(--black), var(--black-dark)); }
-.service-card.featured {
+.season-sub {
+  margin: 0 0 2px; font-size: 0.74rem; font-weight: 800; color: var(--grey);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.season-card h3 { margin: 0; }
+.season-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.season-card ul li { display: flex; gap: 10px; align-items: flex-start; font-size: 0.94rem; }
+.season-card ul li .chip {
+  flex-shrink: 0; width: 20px; height: 20px; margin-top: 2px;
+  border-radius: 50%; color: #fff; font-size: 0.65rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+.season-card.spring .icon, .season-card.spring .chip { background: linear-gradient(135deg, #4d8c3f, #2f5e26); }
+.season-card.summer .icon, .season-card.summer .chip { background: linear-gradient(135deg, var(--red), var(--red-dark)); }
+.season-card.fall .icon, .season-card.fall .chip { background: linear-gradient(135deg, #d97706, #a85a05); }
+.season-card.winter .icon, .season-card.winter .chip { background: linear-gradient(135deg, #2b4f7a, #142b47); }
+.season-card.winter {
   border-color: var(--red);
   box-shadow: 0 10px 26px rgba(198,12,48,0.14);
 }
@@ -270,7 +289,6 @@ p { color: var(--grey); margin: 0 0 16px; }
   font-size: 0.68rem; font-weight: 800; letter-spacing: 0.04em;
   padding: 4px 10px; border-radius: 999px; text-transform: uppercase;
 }
-.service-card p { margin-bottom: 0; font-size: 0.94rem; }
 
 /* ---------- Stripe feature (mow like a champion) ---------- */
 .stripe-feature {
